@@ -44,7 +44,7 @@ def handle_message_events(say, logger, context, message):
     post_at_ts = message["ts"]
 
     # In some cases, 'user' is null
-    if 'user' in message["user"]:
+    if 'user' in message:
         post_user_id = message["user"]
     else:
         post_user_id = ""
