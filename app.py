@@ -42,7 +42,12 @@ def handle_message_events(say, logger, context, message):
 
     channel_id = message["channel"]
     post_at_ts = message["ts"]
-    post_user_id = message["user"]
+
+    # In some cases, 'user' is null
+    if 'user' in message["user"]:
+        post_user_id = message["user"]
+    else:
+        post_user_id = ""
 
     # get permalink api
     res = app.client.chat_getPermalink(
