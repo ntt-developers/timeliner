@@ -25,6 +25,8 @@ def slack_post_message(message):
 
     requests.post(url,data=payload)
 
+# --- Main ---
+
 data = select_daily_count()
 timeline_channel = os.environ["TIMELINE_CHANNEL_ID"]
 
