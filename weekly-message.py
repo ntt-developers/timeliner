@@ -25,10 +25,12 @@ def slack_post_message(message):
 
     requests.post(url,data=payload)
 
+# --- Main ---
+
 data = select_weekly_count()
 timeline_channel = os.environ["TIMELINE_CHANNEL_ID"]
 
-message = "1週間の投稿数Top10 <#"
+message = "1週間の投稿数Top10 (in <#"
 message += timeline_channel
 message += "> )\n"
 
