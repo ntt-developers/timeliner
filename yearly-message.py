@@ -102,7 +102,6 @@ for i in range(max_count):
     message += "\n"
     
     slack_post_message_thread(message,ts)
-    break
 time.sleep(0.5)
 last_message = " このランキング投稿は今年初の試みなので、コメントあればお願いします :bow: \n ※ 全チャンネルのtop5出すのは長いかなと思いつつ、全部見たいかなと思って全部投稿してみました \n ※ 紅白見ながらやっつけでコード書いたのでバグったら:gomensoumen: \n "
 
