@@ -6,7 +6,7 @@ import time
 
 def select_yearly_count():
     dsn = os.environ["PSQL_DSN"]
-    sql = "select channel_id,count(pl.channel_id) from postlog pl where pl.post_at < '2024-01-01 00:00:00' and pl.post_at >= '2023-01-01 00:00:00' and not exists(select * from exclusion_list el where el.channel_id = pl.channel_id) group by pl.channel_id order by count(pl.channel_id) desc"
+    sql = "select channel_id,count(pl.channel_id) from postlog pl where pl.post_at < '2025-01-01 00:00:00' and pl.post_at >= '2024-01-01 00:00:00' and not exists(select * from exclusion_list el where el.channel_id = pl.channel_id) group by pl.channel_id order by count(pl.channel_id) desc"
     with psycopg2.connect(dsn) as conn:
         with conn.cursor() as cur:
             cur.execute(sql)
@@ -15,7 +15,7 @@ def select_yearly_count():
 
 def select_user_count(channel_id):
     dsn = os.environ["PSQL_DSN"]
-    sql = "select pl.post_user_id, count(pl.post_user_id) from postlog pl where pl.channel_id = %s and pl.post_at < '2024-01-01 00:00:00' and pl.post_at >= '2023-01-01 00:00:00' group by pl.post_user_id order by count(pl.post_user_id) desc"
+    sql = "select pl.post_user_id, count(pl.post_user_id) from postlog pl where pl.channel_id = %s and pl.post_at < '2025-01-01 00:00:00' and pl.post_at >= '2024-01-01 00:00:00' group by pl.post_user_id order by count(pl.post_user_id) desc"
     with psycopg2.connect(dsn) as conn:
         with conn.cursor() as cur:
             cur.execute(sql,(channel_id,))
@@ -65,7 +65,7 @@ def slack_get_user_info(user_id):
 
 data = select_yearly_count()
 
-fir_message = " :bamboo: あけましておめでとうございます :sunrise_over_mountains: \n 2023年、一年分のチャンネル別投稿数ランキングをお知らせします \n 長いのでスレッド形式で投稿します\n ※ Timelinerが参加しているチャンネルのみ集計されています \n 2024年もntt-developers slackをよろしくお願いします :bow: \n"
+fir_message = " :bamboo: あけましておめでとうございます :sunrise_over_mountains: \n 2024年、一年分のチャンネル別投稿数ランキングをお知らせします \n 長いのでスレッド形式で投稿します\n ※ Timelinerが参加しているチャンネルのみ集計されています \n 2025年もntt-developers slackをよろしくお願いします :snake: \n"
 
 ts = slack_post_message_main(fir_message)
 
@@ -102,7 +102,8 @@ for i in range(max_count):
     message += "\n"
     
     slack_post_message_thread(message,ts)
-time.sleep(0.5)
-last_message = " このランキング投稿は今年初の試みなので、コメントあればお願いします :bow: \n ※ 全チャンネルのtop5出すのは長いかなと思いつつ、全部見たいかなと思って全部投稿してみました \n ※ 紅白見ながらやっつけでコード書いたのでバグったら:gomensoumen: \n "
+time.sleep(2)
+#last_message = " このランキング投稿は今年初の試みなので、コメントあればお願いします :bow: \n ※ 全チャンネルのtop5出すのは長いかなと思いつつ、全部見たいかなと思って全部投稿してみました \n ※ 紅白見ながらやっつけでコード書いたのでバグったら:gomensoumen: \n "
+last_message = "Created by yamagata."
 
 slack_post_message_thread(last_message,ts)
