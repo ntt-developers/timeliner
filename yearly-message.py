@@ -6,7 +6,7 @@ import time
 
 def select_yearly_count():
     dsn = os.environ["PSQL_DSN"]
-    sql = "select channel_id,count(pl.channel_id) from postlog pl where pl.post_at < '2025-01-01 00:00:00' and pl.post_at >= '2024-01-01 00:00:00' and not exists(select * from exclusion_list el where el.channel_id = pl.channel_id) group by pl.channel_id order by count(pl.channel_id) desc"
+    sql = "select channel_id,count(pl.channel_id) from postlog pl where pl.post_at < '2026-01-01 00:00:00' and pl.post_at >= '2025-01-01 00:00:00' and not exists(select * from exclusion_list el where el.channel_id = pl.channel_id) group by pl.channel_id order by count(pl.channel_id) desc"
     with psycopg2.connect(dsn) as conn:
         with conn.cursor() as cur:
             cur.execute(sql)
@@ -15,7 +15,7 @@ def select_yearly_count():
 
 def select_user_count(channel_id):
     dsn = os.environ["PSQL_DSN"]
-    sql = "select pl.post_user_id, count(pl.post_user_id) from postlog pl where pl.channel_id = %s and pl.post_at < '2025-01-01 00:00:00' and pl.post_at >= '2024-01-01 00:00:00' group by pl.post_user_id order by count(pl.post_user_id) desc"
+    sql = "select pl.post_user_id, count(pl.post_user_id) from postlog pl where pl.channel_id = %s and pl.post_at < '2026-01-01 00:00:00' and pl.post_at >= '2025-01-01 00:00:00' group by pl.post_user_id order by count(pl.post_user_id) desc"
     with psycopg2.connect(dsn) as conn:
         with conn.cursor() as cur:
             cur.execute(sql,(channel_id,))
@@ -65,7 +65,7 @@ def slack_get_user_info(user_id):
 
 data = select_yearly_count()
 
-fir_message = " :bamboo: あけましておめでとうございます :sunrise_over_mountains: \n 2024年、一年分のチャンネル別投稿数ランキングをお知らせします \n 長いのでスレッド形式で投稿します\n ※ Timelinerが参加しているチャンネルのみ集計されています \n 2025年もntt-developers slackをよろしくお願いします :snake: \n"
+fir_message = " :bamboo: あけましておめでとうございます :sunrise_over_mountains: \n 2025年、一年分のチャンネル別投稿数ランキングをお知らせします \n 長いのでスレッド形式で投稿します\n ※ Timelinerが参加しているチャンネルのみ集計されています \n 2026年もntt-developers slackをよろしくお願いします :horse: \n"
 
 ts = slack_post_message_main(fir_message)
 
